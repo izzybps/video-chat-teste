@@ -9,7 +9,7 @@ const io = require("socket.io")(server, {
     origin: '*'
   }
 });
-var board = require('rtc-switch')();
+
 const { ExpressPeerServer } = require("peer");
 const peerServer = ExpressPeerServer(server, {
   debug: true,
@@ -30,12 +30,7 @@ app.get("/:room", (req, res) => {
 
 io.on("connection", (socket) => {
   socket.on("join-room", (roomId, userId, userName) => {
-    var peer = board.connect();
- 
-    socket.on('rtc-signal', peer.process);
-    peer.on('data', (data) => {
-      socket.emit('rtc-signal', data);
-    });
+    
     socket.join(roomId);
     socket.to(roomId).emit("user-connected", userId);
     socket.on("message", (message) => {
