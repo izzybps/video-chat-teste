@@ -21,7 +21,11 @@ showChat.addEventListener("click", () => {
 
 const user = prompt("Enter your name");
 
-var peer = new Peer();
+var peer = new Peer(undefined, {
+    path: "/peerjs",
+    host: "/",
+    port: "443",
+  });
 
 let myVideoStream;
 navigator.mediaDevices
@@ -60,7 +64,6 @@ peer.on("open", (id) => {
 
 peer.on("close", (id) => {
     socket.emit("leave-room", ROOM_ID, id, user);
-    peer.destroy();
 })
 
 const addVideoStream = (video, stream) => {
