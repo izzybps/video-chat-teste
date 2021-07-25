@@ -12,7 +12,8 @@ var board = require('rtc-switch')();
 const { ExpressPeerServer } = require("peer");
 const peerServer = ExpressPeerServer(server, {
   debug: true,
-  path: "/peerjs"
+  path: "/peerjs",
+  ssl: {}
 });
 
 app.use("/peerjs", peerServer);

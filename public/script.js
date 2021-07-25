@@ -3,13 +3,7 @@ const videoGrid = document.getElementById("video-grid");
 const myVideo = document.createElement("video");
 const showChat = document.querySelector("#showChat");
 const backBtn = document.querySelector(".header__back");
-var quickconnect = require('rtc-quickconnect');
-var freeice = require('freeice');
 myVideo.muted = true;
-var qc = quickconnect(signaller, {
-    room: ROOM_ID,
-    iceServers: freeice()
-  });
 
 backBtn.addEventListener("click", () => {
   document.querySelector(".main__left").style.display = "flex";
@@ -29,7 +23,8 @@ const user = prompt("Enter your name");
 
 var peer = new Peer(undefined, {
     path: "/peerjs",
-    host: "/"
+    host: "/",
+    port: "443"
   });
 
 let myVideoStream;
@@ -52,12 +47,8 @@ navigator.mediaDevices
 
     socket.on("user-connected", (userId) => {
       connectToNewUser(userId, stream);
-      qc.createDataChannel('test');
-      qc.on('channel:opened:test', function(id, dc) {
-        console.log('data channel opened with peer: ' + id);
-      });
     });
-});
+  });
 
 const connectToNewUser = (userId, stream) => {
   const call = peer.call(userId, stream);
